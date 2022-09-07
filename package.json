@@ -1,7 +1,6 @@
 {
   "name": "wgs-day2",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node app",
@@ -19,6 +18,10 @@
   "homepage": "https://github.com/wgsdani/wgs-day2#readme",
   "dependencies": {
     "nodemon": "^2.0.19",
-    "validator": "^13.7.0"
-  }
+    "validator": "^13.7.0",
+    "yargs": "^17.5.1"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "description": ""
 }
