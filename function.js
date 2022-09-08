@@ -47,15 +47,15 @@ const loadContact=()=> {
 const listContact=()=>{
 	const contacts = loadContact();
 	console.log('Contact List : ');
-	contacts.forEach((contact,i) => {
-		console.log(`${i+1}.${contact.name}-${contact.mobile}`);
+	contacts.forEach((contacts,i) => {
+		console.log(`${i+1}.${contacts.name}-${contacts.mobile}`);
 	});
 };
 
 // Detail Contact
 const detailContact=(name) => {
 	const contacts = loadContact();
-	const detailContact = contacts.find((contact) => contact.name === name);
+	const detailContact = contacts.find((contacts) => contacts.name === name);
 	if(detailContact){
 		console.log('This is detail contact');
 		console.log('Contact Detail : ');
@@ -66,10 +66,73 @@ const detailContact=(name) => {
 		console.log('Detailed data is invalid');
 		return false;
 	};
-
-
-
 }
+// Update Contact
+const updateContact = (name, newName, newEmail, newMobile) => {
+	const upContact = [];
+	const contacts = loadContact();
+	const index = contacts.findIndex((contacts) => contacts.name.toLowerCase() === name.toLowerCase());
+
+		if (index > -1){
+			if(newName){
+				const duplicate = contacts.find((contacts) => contacts.name === newName);
+			if (duplicate){
+				upContact.push ('Name has to used, Please input other name !');
+				}
+				contacts[index].name = newName;
+			}
+
+			if (newEmail){
+				if(!validator.isEmail(newEmail)){
+					upContact.push('Please input valid email ! ');
+				}
+				contacts[index].email = newEmail;
+			}
+
+			if(newMobile){
+				if (!validator.isMobilePhone(newMobile, "id-ID")){
+				upContact.push('Please Input valid Mobile Phone ! ')
+				}
+				contacts[index].mobile = newMobile;
+			}
+
+			if (upContact.length > 0){
+				console.log(upContact);
+				return false;
+			}
+
+		} else {
+				console.log('Sorry, The contact has definied :( ');
+			return false;
+			}
+		
+			fs.writeFileSync(filepath, JSON.stringify(contacts));
+			console.log('The Contact has Succesfully Updated !!!');
+		
+};
+
+
+
+
+// Delete Contact
+const deletedContact = (name) => {
+  const contacts = loadContact();
+  const index = contacts.findIndex((contacts) => contacts.name === name);
+
+	if (index > -1) {
+		contacts.splice(index, 1);
+		fs.writeFileSync(filepath, JSON.stringify(contacts));
+	}else {
+		console.log("Contacts is definied");
+		return false;
+	
+	}
+	console.log('Deleted Contact has Successfully');
+};
+
+
+
+
 // menyimpan data contacts
 	const getcontacts = (name,email,mobile) => {
 		const contact = {name,email,mobile};
@@ -100,4 +163,4 @@ const detailContact=(name) => {
 // rl.close();
 }
 
-module.exports = {getcontacts, listContact, detailContact}
+module.exports = {getcontacts, listContact, detailContact, updateContact, deletedContact}

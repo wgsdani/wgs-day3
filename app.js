@@ -3,16 +3,20 @@
 // console.log(validator.isEmail('daniwgs92@gmail.com'));
 // console.log(validator.isMobilePhone('08996988449','id-ID'));
 
-const { command } = require('yargs');
+const { notStrictEqual } = require('assert');
+const { type } = require('os');
+const { argv } = require('process');
+const { command, demandOption } = require('yargs');
 const yargs = require('yargs')
 // console.log(yargs.argv);
 
+
 const func = require('./function')
 
-
+// Command for add
 yargs.command({
 	command:'add',
-	describe:'add new contact',
+	describe:'Add new contact',
 	builder:{
 		name:{
 			describe:'Contact Name',
@@ -35,7 +39,7 @@ yargs.command({
 	}
 });
 
-
+// Command for List
 	yargs.command({
 		command:'list',
 		describe:'List contact data',
@@ -45,7 +49,7 @@ yargs.command({
 	}
 });
 
-
+// Command for detail
 	yargs.command({
 		command:'detail',
 		describe:'Detail contact data',
@@ -61,6 +65,55 @@ yargs.command({
 		func.detailContact(argv.name);
 	}
 });
+
+// Command for update
+yargs.command({
+	command:'update',
+	describe:'The data has updated',
+	builder:{
+		name:{
+			describe:'Contact old Name',
+			demandOption:true,
+			type : 'string'
+		},
+		newName:{
+			describe:'Contact new Name',
+			demandOption:false,
+			type:'string',
+		},
+		newEmail:{
+			describe:'Contact new Email',
+			demandOption:false,
+			type:'string',
+		},
+		newMobile:{
+			describe:'Contact new mobile phone number',
+			demandOption:false,
+			type:'string',
+		}
+	},
+	handler(argv){
+		func.updateContact(argv.name, argv.newName, argv.newEmail, argv.newMobile);
+	}
+});
+
+// Command for Delete
+	yargs.command({
+		command:'remove',
+		describe:' The data has removed',
+		builder:{
+			name:{
+				describe:' Note a',
+				demandOption:true,
+				type:'string'
+			}
+		},
+		handler:argv =>{
+			func.deletedContact(argv.name);
+
+		}
+	});
+
 
 yargs.parse();
 
